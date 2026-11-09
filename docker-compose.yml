@@ -1,0 +1,38 @@
+# Local development only. Never used in production.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: mo4
+      POSTGRES_PASSWORD: mo4databasepw1
+      POSTGRES_DB: mo4
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mo4 -d mo4"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  # Frontend in a Linux container: the Windows host blocks Tailwind v4's native
+  # binary (Application Control), the Linux one loads fine. Run on demand:
+  #   docker compose up frontend
+  #   docker compose run --rm frontend npm test
+  frontend:
+    image: node:22-bookworm-slim
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run dev -- --host 0.0.0.0"
+    environment:
+      API_PROXY_TARGET: http://host.docker.internal:8010
+      VITE_USE_POLLING: "1"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+
+volumes:
+  pgdata:
+  frontend_node_modules:

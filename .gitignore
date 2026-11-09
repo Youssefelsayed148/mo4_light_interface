@@ -1,0 +1,26 @@
+# env
+.env
+.env.*
+!.env.example
+
+# node
+node_modules/
+frontend/dist/
+.vite/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# build output
+dist/
+build/
+.vercel/
+
+# OS / editor
+.DS_Store
+Thumbs.db

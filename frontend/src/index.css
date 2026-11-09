@@ -1,0 +1,139 @@
+@import 'tailwindcss';
+
+/*
+ * Theme tokens (SPEC section 7). This is the ONLY place raw colors live.
+ * Components use the semantic names below (bg-surface, text-muted, ...).
+ * Dark is the base. Light applies for data-theme="light", or for the OS
+ * light preference when no explicit choice is set (mode "system").
+ */
+:root {
+  color-scheme: dark;
+  --bg: #17171a;
+  --surface: #1f1f23;
+  --border: #2c2c31;
+  --text: #ececef;
+  --muted: #9a9aa3;
+  --on-accent: #17171a;
+
+  /* Status colors (text/icon on surface). Light theme uses darker shades for contrast. */
+  --status-unassigned: #9a9aa3;
+  --status-assigned: #60a5fa;
+  --status-in-progress: #fbbf24;
+  --status-done: #4ade80;
+  --status-overdue: #fb7185;
+
+  /* Base accents, cycled per base. */
+  --accent-1: #818cf8; /* indigo */
+  --accent-2: #2dd4bf; /* teal */
+  --accent-3: #a78bfa; /* violet */
+  --accent-4: #fbbf24; /* amber */
+
+  --radius: 12px;
+  --motion: 150ms;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f2f2f4;
+  --surface: #ffffff;
+  --border: #dcdce1;
+  --text: #1a1a1f;
+  --muted: #6b6b75;
+  --on-accent: #ffffff;
+  --status-unassigned: #6b6b75;
+  --status-assigned: #1d4ed8;
+  --status-in-progress: #92400e;
+  --status-done: #15803d;
+  --status-overdue: #be123c;
+  --accent-1: #4338ca;
+  --accent-2: #0f766e;
+  --accent-3: #6d28d9;
+  --accent-4: #b45309;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --bg: #f2f2f4;
+    --surface: #ffffff;
+    --border: #dcdce1;
+    --text: #1a1a1f;
+    --muted: #6b6b75;
+    --on-accent: #ffffff;
+    --status-unassigned: #6b6b75;
+    --status-assigned: #1d4ed8;
+    --status-in-progress: #92400e;
+    --status-done: #15803d;
+    --status-overdue: #be123c;
+    --accent-1: #4338ca;
+    --accent-2: #0f766e;
+    --accent-3: #6d28d9;
+    --accent-4: #b45309;
+  }
+}
+
+@theme inline {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-on-accent: var(--on-accent);
+
+  --color-status-unassigned: var(--status-unassigned);
+  --color-status-assigned: var(--status-assigned);
+  --color-status-in-progress: var(--status-in-progress);
+  --color-status-done: var(--status-done);
+  --color-status-overdue: var(--status-overdue);
+
+  --color-accent-1: var(--accent-1);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-accent-4: var(--accent-4);
+
+  /* shadcn/ui aliases, all derived from the tokens above. */
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--text);
+  --color-primary: var(--accent-1);
+  --color-primary-foreground: var(--on-accent);
+  --color-secondary: var(--surface);
+  --color-secondary-foreground: var(--text);
+  --color-muted-foreground: var(--muted);
+  --color-destructive: var(--status-overdue);
+  --color-input: var(--border);
+  --color-ring: var(--accent-1);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent-1);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion: 0ms;
+  }
+}
